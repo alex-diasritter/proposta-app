@@ -18,10 +18,12 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario")
     private Proposta proposta;
 
+    private int prazo;
+
     public Usuario() {
     }
 
-    public Usuario(Long id, String nome, String sobrenome, String cpf, String telefone, Double renda, Proposta proposta) {
+    public Usuario(Long id, String nome, String sobrenome, String cpf, String telefone, Double renda, Proposta proposta, int prazo) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -29,6 +31,7 @@ public class Usuario {
         this.telefone = telefone;
         this.renda = renda;
         this.proposta = proposta;
+        this.prazo = prazo;
     }
 
     public Long getId() {
@@ -85,5 +88,13 @@ public class Usuario {
 
     public void setProposta(Proposta proposta) {
         this.proposta = proposta;
+    }
+
+    public int getPrazo() {
+        return prazo;
+    }
+
+    public void setPrazo(int prazo) {
+        this.prazo = prazo;
     }
 }

@@ -1,11 +1,12 @@
 package com.alex.proposta_app.domain.mapper;
-
 import com.alex.proposta_app.domain.dto.PropostaRequestDTO;
 import com.alex.proposta_app.domain.dto.PropostaResponseDTO;
 import com.alex.proposta_app.domain.entity.Proposta;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import java.text.NumberFormat;
+import java.util.List;
 
 @Mapper
 public interface PropostaMapper {
@@ -28,6 +29,12 @@ public interface PropostaMapper {
     @Mapping(target = "cpf", source = "usuario.cpf")
     @Mapping(target = "telefone", source = "usuario.telefone")
     @Mapping(target = "renda", source = "usuario.renda")
+    @Mapping(target = "valorSolicitadoFmt", expression = "java(setValorSolicitadoFmt(proposta))")
     PropostaResponseDTO convertetEntityToDto(Proposta proposta);
 
+    List<PropostaResponseDTO> converteEntityToListDto (Iterable<Proposta> propostas);
+
+    default String setValorSolicitadoFmt(Proposta proposta) {
+        return NumberFormat.getCurrencyInstance().format(proposta.getValorSolicitado());
+    }
 }
