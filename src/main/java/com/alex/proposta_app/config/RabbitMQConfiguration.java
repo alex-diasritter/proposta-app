@@ -7,6 +7,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -15,6 +17,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfiguration {
+
+    @Value("${rabbitmq.propostapendente.exchange}")
+    private String exchangePropostaPendente;
+
+    @Value("${rabbitmq.propostaconcluida.exchange}")
+    private String exchangePropostaConcluida;
 
     // a configuração da fila também pode ser feita através da interface do RabbitMQ em localhost:15672/
 
@@ -57,12 +65,12 @@ public class RabbitMQConfiguration {
 
     @Bean
     public FanoutExchange criarFanoutExchangePropostaPendente() {
-        return ExchangeBuilder.fanoutExchange("exchangePropostaPendente").build();
+        return ExchangeBuilder.fanoutExchange(exchangePropostaPendente).build();
     }
 
     @Bean
     public FanoutExchange criarFanoutExchangePropostaConcluida() {
-        return ExchangeBuilder.fanoutExchange("exchangePropostaConcluida").build();
+        return ExchangeBuilder.fanoutExchange(exchangePropostaConcluida).build();
     }
 
     @Bean
@@ -87,5 +95,17 @@ public class RabbitMQConfiguration {
     public Binding criarBindingPropostaConcluidaMSNotificacao() {
         return BindingBuilder.bind(criarFilaPropostaConcluidaMsNotificacao()).
                 to(criarFanoutExchangePropostaConcluida());
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate();
+        rabbitTemplate.setConnectionFactory(connectionFactory);
+        rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());
+        return rabbitTemplate;
     }
 }
