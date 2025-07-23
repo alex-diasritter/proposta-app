@@ -97,6 +97,7 @@ public class RabbitMQConfiguration {
                 to(criarFanoutExchangePropostaConcluida());
     }
 
+    // resolve o erro de converção de mensagem
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
