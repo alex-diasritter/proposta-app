@@ -20,7 +20,10 @@ public interface PropostaMapper {
     @Mapping(target = "usuario.renda", source = "renda")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "aprovada", ignore = true)
-    @Mapping(target = "integrada", ignore = true)
+
+    //por padrão integrada = true, o normal é o rabbit estar no ar. caso n esteja o metodo notificarRabbitMQ da clase
+    // propostaService lançará uma exceção e setará integrada = false.
+    @Mapping(target = "integrada", constant = "true")
     @Mapping(target = "obs", ignore = true)
     Proposta converteDtoToProposta(PropostaRequestDTO dto);
 
