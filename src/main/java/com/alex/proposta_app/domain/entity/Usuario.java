@@ -1,5 +1,6 @@
 package com.alex.proposta_app.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public class Usuario {
     private Double renda;
 
     @OneToOne(mappedBy = "usuario")
+    @JsonBackReference
     private Proposta proposta;
 
     private int prazo;
