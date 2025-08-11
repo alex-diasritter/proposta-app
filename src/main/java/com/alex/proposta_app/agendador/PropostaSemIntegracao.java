@@ -1,4 +1,4 @@
-package agendador;
+package com.alex.proposta_app.agendador;
 import com.alex.proposta_app.domain.entity.Proposta;
 import com.alex.proposta_app.repository.PropostaRepository;
 import com.alex.proposta_app.service.NotificacaoService;
@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.util.concurrent.TimeUnit;
 
 @Component
